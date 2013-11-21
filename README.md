@@ -2,6 +2,24 @@
 
 An open-source virtual co-working space. Public rooms are free. Private rooms cost.
 
+   _____              .___       .__        
+  /     \ _____     __| _/____   |__| ____  
+ /  \ /  \\__  \   / __ |/ __ \  |  |/    \ 
+/    Y    \/ __ \_/ /_/ \  ___/  |  |   |  \
+\____|__  (____  /\____ |\___  > |__|___|  /
+        \/     \/      \/    \/          \/ 
+  ___ ___                __                 
+ /   |   \_____    ____ |  | __ ___________ 
+/    ~    \__  \ _/ ___\|  |/ // __ \_  __ \
+\    Y    // __ \\  \___|    <\  ___/|  | \/
+ \___|_  /(____  /\___  >__|_ \\___  >__|   
+       \/      \/     \/     \/    \/       
+__________        __                         __  ._.
+\______   \ _____/  |________   ____ _____ _/  |_| |
+ |       _// __ \   __\_  __ \_/ __ \\__  \\   __\ |
+ |    |   \  ___/|  |  |  | \/\  ___/ / __ \|  |  \|
+ |____|_  /\___  >__|  |__|    \___  >____  /__|  __
+        \/     \/                  \/     \/      \/
 
 ## Why?
 
@@ -29,13 +47,6 @@ An open-source virtual co-working space. Public rooms are free. Private rooms co
 - Consultants, Trainers, and Experts no longer need to fly around the world to assist co-workers in their office
   - Instead they can join the virtual office, which is just as good, if not better, than the real office
 - Remote open-source teams now finally have access to high-bandiwdth communication
-
-
-### Why doesn't Sqwiggle just implement public free rooms?
-
-[I've suggested it countless times, they are not interested.](https://twitter.com/balupton/status/397272119802736640)
-
-Plus it misses the opportunity to create the next generation de-facto standard communicational tool, as an open-source initiative that everyone has power and control over.
 
 
 
