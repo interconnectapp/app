@@ -31,6 +31,13 @@ An open-source virtual co-working space. Public rooms are free. Private rooms co
 - Remote open-source teams now finally have access to high-bandiwdth communication
 
 
+### Why doesn't Sqwiggle just implement public free rooms?
+
+[I've suggested it countless times, they are not interested.](https://twitter.com/balupton/status/397272119802736640)
+
+Plus it misses the opportunity to create the next generation de-facto standard communicational tool, as an open-source initiative that everyone has power and control over.
+
+
 
 ## How?
 
