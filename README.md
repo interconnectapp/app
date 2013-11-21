@@ -3,6 +3,8 @@
 An open-source virtual co-working space. Public rooms are free. Private rooms cost.
 
 
+## Why?
+
 ### The Problem
 
 - In-person communication is the ultimate thing, it's high bandwidth, engages all the senses, and is immediate and personal
@@ -27,6 +29,12 @@ An open-source virtual co-working space. Public rooms are free. Private rooms co
 - Consultants, Trainers, and Experts no longer need to fly around the world to assist co-workers in their office
   - Instead they can join the virtual office, which is just as good, if not better, than the real office
 - Remote open-source teams now finally have access to high-bandiwdth communication
+
+
+
+## How?
+
+[Check out the GitHub Issues.](https://github.com/bevry/interconnect/issues)
 
 
 ## License
