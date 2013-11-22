@@ -1,9 +1,9 @@
 ---
 layout: 'default'
-title: 'What now?'
+title: 'RTCHub | Interconnect'
 ---
 
-## Not sure what to do now? Here's some useful links:
+## RTCHub/Interconnect - a new open platform for open source communities
 
-- [DocPad Documentation](http://docpad.org/docs)
-- [IRC Chat Room](irc://irc.freenode.net/docpad)
+- [RTCHub](https://github.com/rtchub)
+- [Interconnect](https://github.com/bevry/interconnect)
