@@ -24,11 +24,12 @@ An open-source virtual co-working space. Public rooms are free. Private rooms co
 - It is open-source, so you can tweak it to work best for your requirements
 
 
-### The Vision
+### The Impact
 
 - Consultants, Trainers, and Experts no longer need to fly around the world to assist co-workers in their office
   - Instead they can join the virtual office, which is just as good, if not better, than the real office
-- Remote open-source teams now finally have access to high-bandiwdth communication
+- Remote open-source teams now finally have access to high-bandwidth communication
+
 
 
 ### Why doesn't Sqwiggle just implement public free rooms?
