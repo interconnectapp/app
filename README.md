@@ -31,12 +31,26 @@ An open-source virtual co-working space. Public rooms are free. Private rooms co
 - Remote open-source teams now finally have access to high-bandwidth communication
 
 
-
 ### Why doesn't Sqwiggle just implement public free rooms?
 
 [I've suggested it countless times, they are not interested.](https://twitter.com/balupton/status/397272119802736640)
 
 Plus it misses the opportunity to create the next generation de-facto standard communicational tool, as an open-source initiative that everyone has power and control over.
+
+
+### Example Use Case
+
+1. @balupton joins the `#docpad` IRC Channel via InterConnect
+  1. The InterConnect IRC Bot posts on the `#docpad` IRC Channel: "@balupton just joined via http://interconnect.net/#docpad`
+1. @crito joins the `#docpad` IRC Channel via InterConnect
+  1. The InterConnect IRC Bot posts on the `#docpad` IRC Channel: "@crito just joined via http://interconnect.net/#docpad`
+1. @balupton unmutes @crito to start a call
+  1. The InterConnect IRC Bot posts on the `#docpad` IRC Channel: "@balupton and @crito are now video calling on http://interconnect.net/#docpad/balupton+crito`
+1. @ninabreznik was on IRC and notices the video call link, she clicks it and joins
+  1. The InterConnect IRC Bot posts on the `#docpad` IRC Channel: "@balupton, @crito, @ninabreznik are now video calling on http://interconnect.net/#docpad/balupton+crito+ninabreznik`
+1. @balupton posts a link to an image in the InterConnect chat
+  1. The InterConnect chat enhances it on the InterConnect website to embed the actual image
+  2. The InterConnect IRC Bot posts on the `#docpad` IRC Channel: "@balupton just posted: http://the.url/to-the.image"
 
 
 ## How
