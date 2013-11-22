@@ -38,14 +38,9 @@ An open-source virtual co-working space. Public rooms are free. Private rooms co
 Plus it misses the opportunity to create the next generation de-facto standard communicational tool, as an open-source initiative that everyone has power and control over.
 
 
-## How?
+## How
 
 [Check out the GitHub Issues.](https://github.com/bevry/interconnect/issues)
-
-
-## License
-
-Unless stated otherwise; all works are Copyright © 2013+ [Bevry Pty Ltd](http://bevry.me) <us@bevry.me> and licensed [permissively](http://en.wikipedia.org/wiki/Permissive_free_software_licence) under the [MIT License](http://creativecommons.org/licenses/MIT/) for code and the [Creative Commons Attribution 3.0 Unported License](http://creativecommons.org/licenses/by/3.0/) for everything else (including content, media and design), enjoy!
 
 
 ## Whom
@@ -55,3 +50,8 @@ Unless stated otherwise; all works are Copyright © 2013+ [Bevry Pty Ltd](http:/
 - [Nina Breznik](https://github.com/ninabreznik) marketing
 
 Made in [Hacker Retreat](http://hackerretreat.com/)
+
+
+## License
+
+Unless stated otherwise; all works are Copyright © 2013+ [Bevry Pty Ltd](http://bevry.me) <us@bevry.me> and licensed [permissively](http://en.wikipedia.org/wiki/Permissive_free_software_licence) under the [MIT License](http://creativecommons.org/licenses/MIT/) for code and the [Creative Commons Attribution 3.0 Unported License](http://creativecommons.org/licenses/by/3.0/) for everything else (including content, media and design), enjoy!
