@@ -38,7 +38,7 @@ An open-source virtual co-working space. Public rooms are free. Private rooms co
 Plus it misses the opportunity to create the next generation de-facto standard communicational tool, as an open-source initiative that everyone has power and control over.
 
 
-### Example Use Case
+### Example Workflow
 
 1. @balupton joins the `#docpad` IRC Channel via InterConnect
   1. The InterConnect IRC Bot posts on the `#docpad` IRC Channel: `@balupton just joined via http://interconnect.net/#docpad`
