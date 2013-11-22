@@ -48,25 +48,10 @@ Plus it misses the opportunity to create the next generation de-facto standard c
 Unless stated otherwise; all works are Copyright © 2013+ [Bevry Pty Ltd](http://bevry.me) <us@bevry.me> and licensed [permissively](http://en.wikipedia.org/wiki/Permissive_free_software_licence) under the [MIT License](http://creativecommons.org/licenses/MIT/) for code and the [Creative Commons Attribution 3.0 Unported License](http://creativecommons.org/licenses/by/3.0/) for everything else (including content, media and design), enjoy!
 
 
-## Thanks
+## Whom
 
-```
-   _____              .___       .__        
-  /     \ _____     __| _/____   |__| ____  
- /  \ /  \\__  \   / __ |/ __ \  |  |/    \ 
-/    Y    \/ __ \_/ /_/ \  ___/  |  |   |  \
-\____|__  (____  /\____ |\___  > |__|___|  /
-        \/     \/      \/    \/          \/ 
-  ___ ___                __                 
- /   |   \_____    ____ |  | __ ___________ 
-/    ~    \__  \ _/ ___\|  |/ // __ \_  __ \
-\    Y    // __ \\  \___|    <\  ___/|  | \/
- \___|_  /(____  /\___  >__|_ \\___  >__|   
-       \/      \/     \/     \/    \/       
-__________        __                         __  ._.
-\______   \ _____/  |________   ____ _____ _/  |_| |
- |       _// __ \   __\_  __ \_/ __ \\__  \\   __\ |
- |    |   \  ___/|  |  |  | \/\  ___/ / __ \|  |  \|
- |____|_  /\___  >__|  |__|    \___  >____  /__|  __
-        \/     \/                  \/     \/      \/
-```
+- [Benjamin Lupton](https://github.com/balupton) execution
+- [Christo Buschek](https://github.com/crito) programming
+- [Nina Breznik](https://github.com/ninabreznik) marketing
+
+Made in [Hacker Retreat](http://hackerretreat.com/)
