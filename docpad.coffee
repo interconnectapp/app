@@ -37,6 +37,7 @@ docpadConfig = {
 			styles: [
 				'/vendor/normalize.css'
 				'/vendor/h5bp.css'
+        '/styles/sidebar.css'
 				'/styles/style.css'
 			]
 
@@ -44,7 +45,9 @@ docpadConfig = {
 			scripts: [
 				'/vendor/log.js'
 				'/vendor/modernizr.js'
-				'/scripts/script.js'
+        '/scripts/primus.js'
+        '/scripts/sidebar.js'
+				'/scripts/app.js'
 			]
 
 

@@ -31,6 +31,8 @@
 	<article>
 		<%- @content %>
 	</article>
+  <sidebar class="ui thin styled sidebar right">
+  </sidebar>
 	<footer></footer>
 
 	<!-- jQuery -->
@@ -39,5 +41,6 @@
 
 	<!-- DocPad Scripts + Our Own -->
 	<%- @getBlock('scripts').add(@site.scripts).toHTML() %>
+
 </body>
 </html>
