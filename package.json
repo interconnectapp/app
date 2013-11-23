@@ -46,7 +46,8 @@
     "primus": "~1.4.6",
     "ws": "~0.4.31",
     "express": "~3.4.4",
-    "eco": "~1.1.0-rc-3"
+    "eco": "~1.1.0-rc-3",
+    "coffee-script": "~1.6.3"
   },
   "devDependencies": {
     "docpad-plugin-livereload": "~2.5.3"
