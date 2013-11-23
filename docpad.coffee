@@ -45,7 +45,6 @@ docpadConfig = {
 			scripts: [
 				'/vendor/log.js'
 				'/vendor/modernizr.js'
-        '/scripts/primus.js'
         '/scripts/sidebar.js'
 				'/scripts/app.js'
 			]
