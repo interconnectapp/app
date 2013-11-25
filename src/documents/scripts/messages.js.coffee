@@ -2,8 +2,12 @@ createMessage = (type, payload) ->
   type: type
   payload: payload
 
-joinRoomMessage = (room, nick) ->
+joinRoom = (room, nick) ->
   createMessage 'join', {channel: room, nick: nick}
 
+sendMessage = (msg) ->
+  createMessage 'say', {msg: msg}
+
 module.exports =
-  joinRoomMessage: joinRoomMessage
+  joinRoom: joinRoom
+  sendMessage: sendMessage

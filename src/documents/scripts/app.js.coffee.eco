@@ -1,14 +1,13 @@
 # vim: set ft=coffeescript:
 
 conf = require './conf-<%- @conf %>'
-{joinRoomMessage} = require './utils'
+{joinRoom, sendMessage} = require './messages'
 
 primus = Primus.connect '<%- @site.url %>', {}
 primus.on 'data', (data) ->
-  console.log 'Received from server', data
+  console.log data
 
-console.log joinRoomMessage conf.room, conf.nick
-primus.write joinRoomMessage conf.room, conf.nick
+primus.write joinRoom conf.room, conf.nick
 setTimeout ->
-  primus.write {type: "say", payload: {msg: "Hello World"}}
+  primus.write sendMessage 'Hello Worldp'
 , 10000
