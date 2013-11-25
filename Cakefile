@@ -38,8 +38,10 @@ actions =
   browserify: (opts, next) ->
     (next = opts; opts = {}) unless next?
     step = ->
-      spawn(BROWSERIFY, ['-e', pathUtil.join(APP_DIR, 'src/documents/scripts/script.js'),
-                         '-o', pathUtil.join(APP_DIR, 'src/documents/scripts/app.js')],
+      spawn(BROWSERIFY, ['-e', pathUtil.join(APP_DIR,
+                                             'out/scripts/app.js'),
+                         '-o', pathUtil.join(APP_DIR,
+                                             'out/scripts/main.js')],
         {stdio: 'inherit', cwd: APP_DIR}).on('close', safe next)
     step()
 
@@ -53,9 +55,9 @@ actions =
   publish: (opts, next) ->
     (next = opts; opts = {}) unless next?
     step1 = ->
-      actions.browserify(opts, safe next, step2)
+      actions.docpad(opts, safe next, step2)
     step2 = ->
-      actions.docpad(opts, safe next)
+      actions.browserify(opts, safe next)
     step1()
 
   server: (opts, next) ->

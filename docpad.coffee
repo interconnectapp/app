@@ -10,6 +10,7 @@ docpadConfig = {
 
   templateData:
 
+    conf: "prod"
     # Specify some site properties
     site:
       # The production url of our website
@@ -49,8 +50,7 @@ docpadConfig = {
         '/vendor/jquery-min.js'
         '/vendor/underscore-min.js'
         '/vendor/backbone-min.js'
-        '/scripts/sidebar.js'
-        '/scripts/app.js'
+        '/scripts/main.js'
       ]
 
 
@@ -110,6 +110,7 @@ docpadConfig = {
   environments:
     development:
       templateData:
+        conf: "dev"
         site:
           url: "http://localhost:5000"
 }

@@ -26,6 +26,6 @@ primus.on 'connection', (spark) ->
   primus.write 'From server with Love.'
 
   spark.on 'data', (data) ->
-    console.log 'Received from client:', data
+    console.log 'Received from client:', JSON.stringify data
 
 server.listen app.get('port')

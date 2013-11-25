@@ -1,0 +1,9 @@
+# vim: set ft=coffeescript:
+
+conf = require './conf-<%- @conf %>'
+
+primus = Primus.connect('<%- @site.url %>', {})
+primus.on 'data', (data) ->
+  console.log 'Received from server', data
+
+primus.write(room: conf.room, nick: conf.nick)
