@@ -3,6 +3,11 @@
 An open-source virtual co-working space. Public rooms are free. Private rooms cost.
 
 
+## TLDR;
+
+Think of it as [IRC](http://irccloud.com) for infrastructure, [Sqwiggle](http://sqwiggle.com) for Interface, [Google Hangouts on Air](http://www.google.com/+/learnmore/hangouts/onair.html) for recording, and [GitHub](https://github.com/balupton) for profiles.
+
+
 ## Why?
 
 ### The Problem
