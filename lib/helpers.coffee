@@ -13,7 +13,7 @@ doWhen = (cond, action) ->
 
 dispatch = (funcs...) ->
   size = funcs.length
-  (target, args...) ->
+  (target, args) ->
     ret = undefined
 
     for fn in funcs then do ->

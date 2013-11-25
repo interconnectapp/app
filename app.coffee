@@ -2,7 +2,6 @@
 
 path    = require 'path'
 express = require 'express'
-irc     = require 'node-irc'
 
 app     = express()
 server  = require('http').createServer app
@@ -10,6 +9,7 @@ primus  = new require('primus') server, transformer: 'websockets'
 
 routes     = require './routes'
 {dispatch} = require './lib/helpers'
+irc        = require './lib/irc'
 
 app.configure ->
   app.set 'port', process.env.PORT or 5000
@@ -29,8 +29,8 @@ primus.on 'connection', (spark) ->
 
   spark.on 'data', (data) ->
     dispatch(
-      (n) -> if n is 'join' then console.log 'Join Room' else undefined
-    )(data.type)
+      (n, payload) -> if n is 'join' then irc.join payload.nick, payload.channel
+    )(data.type, data.payload)
     # console.log 'Received from client:', JSON.stringify data
 
 server.listen app.get('port')

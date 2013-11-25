@@ -7,4 +7,5 @@ primus = Primus.connect '<%- @site.url %>', {}
 primus.on 'data', (data) ->
   console.log 'Received from server', data
 
+console.log joinRoomMessage conf.room, conf.nick
 primus.write joinRoomMessage conf.room, conf.nick

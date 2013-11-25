@@ -3,7 +3,7 @@ createMessage = (type, payload) ->
   payload: payload
 
 joinRoomMessage = (room, nick) ->
-  createMessage 'join', room: room, nick: nick
+  createMessage 'join', {channel: room, nick: nick}
 
 module.exports =
   joinRoomMessage: joinRoomMessage

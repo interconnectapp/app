@@ -1,4 +1,4 @@
 module.exports = {
   room: "corocket",
-  nick: "crito"
+  nick: "crito3"
 }
