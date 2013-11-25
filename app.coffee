@@ -1,13 +1,15 @@
 'use strict'
 
 path    = require 'path'
-express = require('express')
+express = require 'express'
+irc     = require 'node-irc'
 
 app     = express()
 server  = require('http').createServer app
 primus  = new require('primus') server, transformer: 'websockets'
 
-routes  = require './routes'
+routes     = require './routes'
+{dispatch} = require './lib/helpers'
 
 app.configure ->
   app.set 'port', process.env.PORT or 5000
@@ -26,6 +28,9 @@ primus.on 'connection', (spark) ->
   primus.write 'From server with Love.'
 
   spark.on 'data', (data) ->
-    console.log 'Received from client:', JSON.stringify data
+    dispatch(
+      (n) -> if n is 'join' then console.log 'Join Room' else undefined
+    )(data.type)
+    # console.log 'Received from client:', JSON.stringify data
 
 server.listen app.get('port')
