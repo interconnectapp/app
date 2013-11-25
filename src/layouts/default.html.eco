@@ -44,8 +44,9 @@
 
   <script src="/primus/primus.js" type="text/javascript" charset="utf-8"></script>
   <script type="text/javascript" charset="utf-8">
-    var primus = Primus.connect('http://localhost:5000', {});
-    <!-- var primus = Primus.connect('http://rtchub.herokuapp.com', {});-->
+    console.log('<%- @site.url %>');
+    console.log('<%- process.env.NODE_ENV %>');
+    var primus = Primus.connect('<%- @site.url %>', {});
     primus.on('data', function (data) {
       console.log('Received from server:', data);
     });
