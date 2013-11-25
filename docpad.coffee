@@ -46,6 +46,9 @@ docpadConfig = {
 			scripts: [
 				'/vendor/log.js'
 				'/vendor/modernizr.js'
+        '/vendor/jquery-min.js'
+        '/vendor/underscore-min.js'
+        '/vendor/backbone-min.js'
         '/scripts/sidebar.js'
 				'/scripts/app.js'
 			]
