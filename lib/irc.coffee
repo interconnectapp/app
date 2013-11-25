@@ -22,8 +22,11 @@ join = (nick, channel) ->
   client.nick nick
   client.user nick, "Nomen Nescio"
   client.join channel
-  client.names channel, (err, name) ->
-    console.log name
+  client
+
+say = (client, channel, msg) ->
+  client.send channel, msg
 
 module.exports =
   join: join
+  say: say
