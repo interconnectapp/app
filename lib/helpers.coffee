@@ -5,11 +5,9 @@ cat = (args...) ->
   head = args[0]
   if existy head then head.concat.apply head, args[1..-1] else []
 
-construct = (head, tail...) ->
-  cat [head], tail
+construct = (head, tail...) -> cat [head], tail
 
-doWhen = (cond, action) ->
-  if truthy cond then action() else undefined
+doWhen = (cond, action) -> if truthy cond then action() else undefined
 
 dispatch = (funcs...) ->
   size = funcs.length

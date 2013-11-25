@@ -1,12 +1,3 @@
-# IRCClient = require 'node-irc'
-
-# join = (nick, channel) ->
-#   console.log "Join IRC #{nick}:#{channel}"
-#   channel = "#{channel}" unless channel[0] is "#"
-#   client = new IRCClient 'irc.freenode.net', 6667, nick, "Nomen Nescio"
-#   client.connect()
-#   client.join channel
-#
 irc = require 'slate-irc'
 net = require 'net'
 
