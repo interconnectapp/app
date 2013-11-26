@@ -27,14 +27,12 @@ client = undefined
 
 primus.on 'connection', (spark) ->
   console.log 'connected'
-  primus.write 'From server with Love.'
 
   spark.on 'data', (data) ->
     dispatch(
-      (n, payload) -> if n is 'join' then client = irc.join(payload.nick, payload.channel, spark)
-      (n, payload) -> if n is 'say'  then irc.say(client, "#corocket", payload.msg)
+      (n, payload) -> if n is 'join' then chatRoom = irc.join(payload.nick, payload.channel, spark)
+      (n, payload) -> if n is 'say'  then chatRoom.say(payload.msg)
     )(data.type, data.payload)
-    # console.log 'Received from client:', JSON.stringify data
 
 primus.on 'disconnection', (spark) ->
   client.quit('Goodbye') if client
