@@ -47,7 +47,10 @@
     "ws": "~0.4.31",
     "express": "~3.4.4",
     "eco": "~1.1.0-rc-3",
-    "coffee-script": "~1.6.3"
+    "coffee-script": "~1.6.3",
+    "slate-irc": "~0.3.0",
+    "primus-rooms": "~2.1.1",
+    "primus-redis-rooms": "~0.1.1"
   },
   "devDependencies": {
     "docpad-plugin-livereload": "~2.5.3"

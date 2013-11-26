@@ -35,19 +35,10 @@
   </sidebar>
 	<footer></footer>
 
-	<!-- jQuery -->
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-    <script>window.jQuery || document.write('<script src="/vendor/jquery.js"><\/script>')</script>
+  <script src="/primus/primus.js" type="text/javascript" charset="utf-8"></script>
 
 	<!-- DocPad Scripts + Our Own -->
 	<%- @getBlock('scripts').add(@site.scripts).toHTML() %>
 
-  <script src="/primus/primus.js" type="text/javascript" charset="utf-8"></script>
-  <script type="text/javascript" charset="utf-8">
-    var primus = Primus.connect('http://rtchub.herokuapp.com', {});
-    primus.on('data', function (data) {
-      console.log('Received from server:', data);
-    });
-  </script>
 </body>
 </html>
