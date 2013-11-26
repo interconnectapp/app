@@ -1,7 +1,7 @@
 fail = (msg) -> throw new Error(JSON.stringify msg)
 warn = (msg) -> console.log ['WARN:', JSON.stringify msg].join(' ')
 info = (msg) -> console.log ['INFO:', JSON.stringify msg].join(' ')
-debug = (msg) -> console.log ['DEBUG:', JSON.stringify msg].join(' ')
+debug = (msg) -> console.log ['DEBUG:', JSON.stringify(msg, null, "  ")].join(' ')
 
 existy = (x) -> x?
 truthy = (x) -> x isnt false and existy x

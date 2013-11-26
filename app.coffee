@@ -32,23 +32,20 @@ app.configure ->
 app.configure 'development', ->
   app.use(express.errorHandler())
 
-session = undefined
-
 primus.on 'connection', (spark) ->
   debug 'connected'
+  session = undefined
 
-  spark.on 'data', (data) ->
-    dispatch(
-      (n, payload) ->
-        if n is 'join'
-          session = corocket.join(payload.nick, payload.channel, spark)
-      (n, payload) -> if n is 'say'   then session.say(payload.msg)
-      (n, payload) -> if n is 'away'  then session.away(payload.msg)
-      (n, payload) -> if n is 'leave' then session.leave(payload.msg)
-      (n, payload) -> if n is 'busy'  then session.busy(payload.msg)
-    )(data.type, data.payload)
+  spark.on 'data', ({type,payload}) ->
+    switch type
+      when 'join'
+        session = corocket.join(payload.nick, payload.channel, spark)
+      when 'say', 'away', 'leave', 'busy'
+        session[type](payload.msg)
+      else
+        debug payload[type]
 
-primus.on 'disconnection', (spark) ->
-  session.leave('Goodbye') if session
+  spark.on 'end', ->
+    session?.leave('Goodbye')
 
 server.listen app.get('port')

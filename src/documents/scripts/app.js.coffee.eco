@@ -9,5 +9,52 @@ primus.on 'data', (data) ->
 
 primus.write joinRoom conf.room, conf.nick
 setTimeout ->
-  primus.write sendMessage 'Hello Worldp'
+  primus.write sendMessage 'Hello World'
 , 10000
+
+
+# media = require('rtc-media')
+# canvas = require('rtc-canvas')
+
+# sidebar = document.getElementsByTagName('sidebar')[0]
+constraints =
+  audio: true
+  video:
+    mandatory:
+      maxWidth: 640
+      maxHeight: 360
+    optional: []
+
+
+# media({constraints: constraints}).render(vid = canvas(sidebar, { fps: 0.5 }))
+
+# vid.pipeline.add (imageData) ->
+#   channels = imageData.data
+#   channelCount = channels.length
+
+#   # iterate through the data
+#   for i in [0..channels.length] by 4
+#     channels[i] = channels[i+1] = channels[i+2] =
+#       (channels[i] + channels[i+1] + channels[i+2]) / 3
+
+#   # return true to flag that we want to write our pixel data back to the canvas
+#   true
+
+# canvas = document.getElementsByTagName('canvas')[0]
+# canvas.style.zoom = 0.25
+
+detect = require('rtc-core/detect')
+
+window.URL = window.URL || detect('URL')
+
+pc = new webkitRTCPeerConnection({ "iceServers": [{ "url": "stun:stun.l.google.com:19302" }] })
+
+gotStream = (stream) ->
+  pc.addStream(stream)
+  pc.createOffer (offer) ->
+    pc.setLocalDescription(offer)
+    primus.write type: 'offer', payload: {offer: offer.sdp}
+
+navigator.webkitGetUserMedia(constraints, gotStream)
+
+logError = (err) -> console.log err
