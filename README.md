@@ -1,6 +1,6 @@
 # Interconnect
 
-An open-source virtual co-working space. Public rooms are free. Private rooms cost.
+A high-bandwidth virtual office for open teams. Public rooms are free. Private rooms cost. FOSS.
 
 
 ## TLDR
