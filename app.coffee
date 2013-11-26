@@ -13,8 +13,9 @@ PrimusRooms = require('primus-rooms')
 PrimusRedis = require('primus-redis-rooms')
 
 routes     = require('./routes')
-{dispatch} = require('./lib/helpers')
-corocket  = require('./lib/corocket')
+corocket   = require('./lib/corocket')
+
+{debug, info, dispatch} = require('./lib/helpers')
 
 primus.use('rooms', PrimusRooms)  # Remember to use rooms first
 primus.use('redis', PrimusRedis)
@@ -31,9 +32,10 @@ app.configure ->
 app.configure 'development', ->
   app.use(express.errorHandler())
 
+session = undefined
+
 primus.on 'connection', (spark) ->
-  console.log 'connected'
-  session = undefined
+  debug 'connected'
 
   spark.on 'data', (data) ->
     dispatch(

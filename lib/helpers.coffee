@@ -1,3 +1,8 @@
+fail = (msg) -> throw new Error(JSON.stringify msg)
+warn = (msg) -> console.log ['WARN:', JSON.stringify msg].join(' ')
+info = (msg) -> console.log ['INFO:', JSON.stringify msg].join(' ')
+debug = (msg) -> console.log ['DEBUG:', JSON.stringify msg].join(' ')
+
 existy = (x) -> x?
 truthy = (x) -> x isnt false and existy x
 
@@ -20,6 +25,12 @@ dispatch = (funcs...) ->
     ret
 
 module.exports =
+  fail: fail
+  warn: warn
+  info: info
+  debug: debug
+
   existy: existy
   truthy: truthy
+
   dispatch: dispatch

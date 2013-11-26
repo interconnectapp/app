@@ -1,10 +1,11 @@
 irc = require('./irc')
+{debug,info} = require ('./helpers')
 
 class Community
   constructor: (@irc, @spark, @channel) ->
     irc.on 'data', (msg) ->
       # This needs better handling with messages from the server.
-      console.log msg
+      debug msg
       spark.write msg.trailing
 
   say: (msg) ->
@@ -23,7 +24,7 @@ join = (nick, channel, spark) ->
   channel = "##{channel}" unless channel[0] is "#"
   ircClient = irc.join(nick, channel)
   spark.join(channel, ->
-    console.log "Spark joined room #{channel}"
+    debug "Spark joined room #{channel}"
     # spark.room(channel).write(type: joinCorocket, payload: {msg: spark.id})
   )
 
