@@ -39,7 +39,11 @@ docpadConfig = {
       styles: [
         '/vendor/normalize.css'
         '/vendor/h5bp.css'
-        '/styles/sidebar.css'
+        '/vendor/sidebar.css'
+        '/vendor/button.css'
+        '/vendor/input.css'
+        '/vendor/message.css'
+        '/vendor/form.css'
         '/styles/style.css'
       ]
 
@@ -48,6 +52,7 @@ docpadConfig = {
         '/vendor/log.js'
         '/vendor/modernizr.js'
         '/vendor/jquery-min.js'
+        '/vendor/jquery-scrollto.js'
         '/vendor/underscore-min.js'
         '/vendor/backbone-min.js'
         '/scripts/main.js'

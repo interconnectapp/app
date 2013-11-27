@@ -1,1 +1,14 @@
 /* Your styles go here */
+#messages {
+  overflow: auto;
+  width: 800px;
+  height: 400px;
+}
+
+#chatWindow {
+  display: none;
+}
+
+sidebar {
+  display: none;
+}

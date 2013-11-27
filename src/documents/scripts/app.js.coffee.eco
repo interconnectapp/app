@@ -1,22 +1,8 @@
-# vim: set ft=coffeescript:
+# vim: set ft=coffee:
 
-conf = require './conf-<%- @conf %>'
+# conf = require './conf-<%- @conf %>'
 {joinRoom, sendMessage} = require './messages'
 
-primus = Primus.connect '<%- @site.url %>', {}
-primus.on 'data', (data) ->
-  console.log data
-
-primus.write joinRoom conf.room, conf.nick
-setTimeout ->
-  primus.write sendMessage 'Hello World'
-, 10000
-
-
-# media = require('rtc-media')
-# canvas = require('rtc-canvas')
-
-# sidebar = document.getElementsByTagName('sidebar')[0]
 constraints =
   audio: true
   video:
@@ -25,7 +11,69 @@ constraints =
       maxHeight: 360
     optional: []
 
+postMessage = (msg) ->
+    $messages = $('#messages')
+    $message = $("<div class='ui small message'><p>#{msg}</p></div>")
+    $messages.append($message)
+    $message.ScrollTo()
 
+primus = Primus.connect '<%- @site.url %>', {}
+
+primus.on 'data', ({type, payload}) ->
+  switch type
+    when 'joined'
+      $('#connectionBox').hide()
+      $('#chatWindow').show()
+      $('sidebar').show()
+      primus.write type: 'ircMembers', payload: {}
+
+      pc = new webkitRTCPeerConnection({ "iceServers": [{ "url": "stun:stun.l.google.com:19302" }] })
+
+      gotStream = (stream) ->
+        video = document.createElement('video')
+        video.setAttribute('autoplay', true)
+        video.setAttribute('muted', true)
+        if (typeof video.mozSrcObject != 'undefined')
+          video.mozSrcObject = stream
+        else
+          video.src = URL.createObjectURL(stream)
+
+        sidebar = document.getElementById('you')
+        sidebar.appendChild(video)
+        video.style.zoom = 0.25
+
+        pc.addStream(stream)
+        pc.createOffer (offer) ->
+          pc.setLocalDescription(offer)
+          primus.write type: 'offer', payload: {offer: offer.sdp}
+
+      navigator.webkitGetUserMedia(constraints, gotStream)
+
+      postMessage('Connected to channel')
+    when 'ircMembers'
+      $('#ircMembers').empty()
+      $('#ircMembers').append("<li>#{name}</li>") for name in payload
+    when 'message'
+      postMessage(payload)
+
+
+$('#connect').click(->
+  nick = $('#nick').attr("disabled", true).val()
+  channel = $('#channel').attr("disabled", true).val()
+  $('#connect').addClass('loading')
+  primus.write joinRoom channel, nick
+)
+
+$('#send').click(->
+  msg = $('#message').val()
+  data = type: 'say', payload: {msg: msg}
+  primus.write(data)
+  postMessage("You: #{msg}")
+  $('#message').val('')
+)
+
+# media = require('rtc-media')
+# canvas = require('rtc-canvas')
 # media({constraints: constraints}).render(vid = canvas(sidebar, { fps: 0.5 }))
 
 # vid.pipeline.add (imageData) ->
@@ -42,19 +90,3 @@ constraints =
 
 # canvas = document.getElementsByTagName('canvas')[0]
 # canvas.style.zoom = 0.25
-
-detect = require('rtc-core/detect')
-
-window.URL = window.URL || detect('URL')
-
-pc = new webkitRTCPeerConnection({ "iceServers": [{ "url": "stun:stun.l.google.com:19302" }] })
-
-gotStream = (stream) ->
-  pc.addStream(stream)
-  pc.createOffer (offer) ->
-    pc.setLocalDescription(offer)
-    primus.write type: 'offer', payload: {offer: offer.sdp}
-
-navigator.webkitGetUserMedia(constraints, gotStream)
-
-logError = (err) -> console.log err

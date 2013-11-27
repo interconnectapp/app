@@ -27,14 +27,33 @@
 	<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
 	<![endif]-->
 
-	<header></header>
-	<article>
-		<%- @content %>
-	</article>
-  <sidebar class="ui thin styled sidebar right">
-  </sidebar>
-	<footer></footer>
+  <%- @content %>
 
+  <section id="connectionBox" class="ui form">
+    <div class="inline field">
+      <label>Nick</label>
+      <input id="nick" type="text" value="crito42">
+    </div>
+    <div class="inline field">
+      <label>Channel</label>
+      <input id="channel" type="text" value="corocketme">
+    </div>
+    <div id="connect" class="ui blue submit button">Connect</div>
+  </section>
+  <section id="chatWindow">
+    <section id="messages">
+    </section>
+    <section id="inputForm" class="ui action input">
+      <input id="message" placeholder="Message..." type="text">
+      <div id="send" class="ui button">Post</div>
+    </section>
+  </section>
+  <sidebar class="ui thin styled sidebar right">
+    <h3>You</h3>
+    <div id="you"></div>
+    <h3>IRC Members</h3>
+    <ul id="ircMembers"></ul>
+  </sidebar>
   <script src="/primus/primus.js" type="text/javascript" charset="utf-8"></script>
 
 	<!-- DocPad Scripts + Our Own -->

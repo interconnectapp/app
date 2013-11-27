@@ -42,10 +42,19 @@ primus.on 'connection', (spark) ->
         session = corocket.join(payload.nick, payload.channel, spark)
       when 'say', 'away', 'leave', 'busy'
         session[type](payload.msg)
+      when 'ircMembers'
+        session[type]()
+      when 'msgUser'
+        debug paylod.msg
       else
         debug payload[type]
 
   spark.on 'end', ->
     session?.leave('Goodbye')
+
+  setTimeout ->
+    spark.room("#corocketme").write ({type: 'say', payload: {msg: 'hahaha'}})
+    spark.room("#corocketme/crito42").write(type: 'msgUser', payload: {msg: spark.id})
+  , 10000
 
 server.listen app.get('port')

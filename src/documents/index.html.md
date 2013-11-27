@@ -1,9 +1,8 @@
 ---
 layout: 'default'
-title: 'RTCHub | Interconnect'
+title: 'coRocket'
 ---
 
-## RTCHub/Interconnect - a new open platform for open source communities
+## coRocket - transparent communication for open communities
 
-- [RTCHub](https://github.com/rtchub)
-- [Interconnect](https://github.com/bevry/interconnect)
+- [Source](https://github.com/bevry/interconnect)
