@@ -5,9 +5,19 @@ express = require('express')
 
 app     = express()
 server  = require('http').createServer(app)
-primus  = new require('primus')(server,
-                                redis: { host: 'localhost', port: 6379},
-                                transformer: 'websockets')
+
+if process.env.REDISTOGO_URL
+  redisenv = require('url').parse(process.env.REDISTOGO_URL)
+  console.log redisenv
+  primus  = new require('primus')(server, redis: {
+                                    host: redisenv.hostname,
+                                    port: redisenv.port,
+                                    auth: redisenv.auth.split(':')[1]
+                                  }, transformer: 'websockets')
+else
+  primus  = new require('primus')(server,
+                                  redis: host: 'localhost', port: 6379
+                                  transformer: 'websockets')
 
 PrimusRooms = require('primus-rooms')
 PrimusRedis = require('primus-redis-rooms')

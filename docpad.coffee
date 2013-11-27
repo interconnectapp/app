@@ -51,7 +51,7 @@ docpadConfig = {
       scripts: [
         '/vendor/log.js'
         '/vendor/modernizr.js'
-        '/vendor/jquery-min.js'
+        '/vendor/jquery-2.0.3.min.js'
         '/vendor/jquery-scrollto.js'
         '/vendor/underscore-min.js'
         '/vendor/backbone-min.js'
