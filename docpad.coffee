@@ -49,6 +49,7 @@ docpadConfig = {
 
       # The website's scripts
       scripts: [
+        '/vendor/adapter.js'
         '/vendor/log.js'
         '/vendor/modernizr.js'
         '/vendor/jquery-2.0.3.min.js'

@@ -51,6 +51,8 @@
   <sidebar class="ui thin styled sidebar right">
     <h3>You</h3>
     <div id="you"></div>
+    <h3>RTC Members</h3>
+    <ul id="rtcMembers"></ul>
     <h3>IRC Members</h3>
     <ul id="ircMembers"></ul>
   </sidebar>

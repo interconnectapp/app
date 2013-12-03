@@ -24,6 +24,7 @@ PrimusRedis = require('primus-redis-rooms')
 
 routes     = require('./routes')
 corocket   = require('./lib/corocket')
+Room       = require('./lib/room')
 
 {debug, info, dispatch} = require('./lib/helpers')
 
@@ -44,27 +45,22 @@ app.configure 'development', ->
 
 primus.on 'connection', (spark) ->
   debug 'connected'
-  session = undefined
+  room = new Room(spark)
 
   spark.on 'data', ({type,payload}) ->
     switch type
       when 'join'
-        session = corocket.join(payload.nick, payload.channel, spark)
+        room.join(payload.nick, payload.channel)
       when 'say', 'away', 'leave', 'busy'
-        session[type](payload.msg)
-      when 'ircMembers'
-        session[type]()
-      when 'msgUser'
-        debug paylod.msg
+        room[type](payload.msg)
+      when 'alive', 'ircMembers'
+        room[type](payload.sender)
+      when 'pingRtcMember'
+        room[type](payload.sender, payload.receiver)
       else
         debug payload[type]
 
   spark.on 'end', ->
-    session?.leave('Goodbye')
-
-  setTimeout ->
-    spark.room("#corocketme").write ({type: 'say', payload: {msg: 'hahaha'}})
-    spark.room("#corocketme/crito42").write(type: 'msgUser', payload: {msg: spark.id})
-  , 10000
+    room?.leave("Goodbye")
 
 server.listen app.get('port')

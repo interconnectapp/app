@@ -3,74 +3,138 @@
 # conf = require './conf-<%- @conf %>'
 {joinRoom, sendMessage} = require './messages'
 
-constraints =
-  audio: true
-  video:
-    mandatory:
-      maxWidth: 640
-      maxHeight: 360
-    optional: []
+class RTCMembers extends Backbone.View
+  events:
+    'click #rtcMember': 'pingMember'
 
-postMessage = (msg) ->
-    $messages = $('#messages')
-    $message = $("<div class='ui small message'><p>#{msg}</p></div>")
-    $messages.append($message)
-    $message.ScrollTo()
+  pingMember: (ev) =>
+    @trigger('pingRtcMember', @model.users.findWhere(nick: $(ev.target).text()))
+
+  initialize: ->
+    @model.on 'reset', @render, @
+    @render
+
+  render: ->
+    $('#rtcMembers').empty()
+    @model.users.each((user) =>
+      $('#rtcMembers').append("<li id='rtcMember'>#{user.get('nick')}</li>"))
+
+class User extends Backbone.Model
+  communityID: ->
+    "#{this.get('channel')}/#{this.get('nick')}"
+
+class Users extends Backbone.Collection
+  model: User
+  initialize: ->
+    @on 'add', (model) ->
+      console.log "Model for #{model.get('nick')} added."
+
+class Room extends Backbone.Model
+  initialize: ->
+    @users = new Users()
+
+  toJSON: (options) ->
+    _.extend(super, users: @users.toJSON())
+
+  pingFromUser: (sender) ->
+    [channel, nick] = sender.split('/')
+    if !@users.findWhere(nick: nick)
+      @users.add([{nick: nick, channel: channel}])
+      @trigger('reset')
+
+room = new Room()
+user = new User()
+rtcList = new RTCMembers(model: room, el: "#rtcMembers")
+
+# constraints =
+#   audio: true
+#   video:
+#     mandatory:
+#       maxWidth: 640
+#       maxHeight: 360
+#     optional: []
+
+postMessage = (from, msg) ->
+  $messages = $('#messages')
+  $message = $("<div class='ui small message'><p>#{from}: #{msg}</p></div>")
+  $messages.append($message)
+  $message.ScrollTo()
 
 primus = Primus.connect '<%- @site.url %>', {}
 
 primus.on 'data', ({type, payload}) ->
+  console.log "Receiving #{type} containing #{payload}"
   switch type
     when 'joined'
       $('#connectionBox').hide()
       $('#chatWindow').show()
       $('sidebar').show()
-      primus.write type: 'ircMembers', payload: {}
 
-      pc = new webkitRTCPeerConnection({ "iceServers": [{ "url": "stun:stun.l.google.com:19302" }] })
+      rtcList.on('pingRtcMember', (receiver) =>
+        console.log "ping #{receiver.get('nick')}"
+        primus.write(
+          type: 'pingRtcMember',
+          payload: 
+            receiver: receiver.communityID()
+            sender: user.communityID()))
 
-      gotStream = (stream) ->
-        video = document.createElement('video')
-        video.setAttribute('autoplay', true)
-        video.setAttribute('muted', true)
-        if (typeof video.mozSrcObject != 'undefined')
-          video.mozSrcObject = stream
-        else
-          video.src = URL.createObjectURL(stream)
+      primus.write(
+        type: 'ircMembers',
+        payload:
+          sender: user.communityID())
 
-        sidebar = document.getElementById('you')
-        sidebar.appendChild(video)
-        video.style.zoom = 0.25
+      # pc = new RTCPeerConnection({ "iceServers": [{ "url": "stun:stun.l.google.com:19302" }] })
 
-        pc.addStream(stream)
-        pc.createOffer (offer) ->
-          pc.setLocalDescription(offer)
-          primus.write type: 'offer', payload: {offer: offer.sdp}
+      # gotStream = (stream) ->
+      #   video = document.createElement('video')
+      #   video.setAttribute('autoplay', true)
+      #   video.setAttribute('muted', true)
+      #   if (typeof video.mozSrcObject != 'undefined')
+      #     video.mozSrcObject = stream
+      #   else
+      #     video.src = URL.createObjectURL(stream)
 
-      navigator.webkitGetUserMedia(constraints, gotStream)
+      #   sidebar = document.getElementById('you')
+      #   sidebar.appendChild(video)
+      #   video.style.zoom = 0.25
 
-      postMessage('Connected to channel')
+      #   pc.addStream(stream)
+      #   pc.createOffer (offer) ->
+      #     pc.setLocalDescription(offer)
+      #     primus.write type: 'offer', payload: {offer: offer.sdp}
+
+      # getUserMedia(constraints, gotStream)
+      setInterval(=>
+        primus.write(type: 'alive', payload:
+          sender: user.communityID())
+      , 5000)
+
+      postMessage('System Overlord', 'Connected to channel')
     when 'ircMembers'
       $('#ircMembers').empty()
       $('#ircMembers').append("<li>#{name}</li>") for name in payload
     when 'message'
-      postMessage(payload)
-
+      postMessage(payload.from, payload.msg)
+    when 'living'
+      room.pingFromUser(payload.sender)
+      # $('#rtcMembers').append("<li>#{payload.sender}</li>")
+    when 'ping'
+      console.log("Ping from #{payload.sender}")
 
 $('#connect').click(->
   nick = $('#nick').attr("disabled", true).val()
   channel = $('#channel').attr("disabled", true).val()
+  channel = "##{channel}" unless channel[0] is "#"
+  user.set(nick: nick, channel: channel)
   $('#connect').addClass('loading')
-  primus.write joinRoom channel, nick
-)
+  primus.write(joinRoom channel, nick))
 
 $('#send').click(->
   msg = $('#message').val()
   data = type: 'say', payload: {msg: msg}
   primus.write(data)
-  postMessage("You: #{msg}")
-  $('#message').val('')
-)
+  postMessage('You', "#{msg}")
+  $('#message').val(''))
 
 # media = require('rtc-media')
 # canvas = require('rtc-canvas')
