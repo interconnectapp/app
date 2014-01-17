@@ -50,10 +50,11 @@
     "rtc-switchboard": "~0.5.0",
     "jquery-browserify": "~1.8.1",
     "docpad-plugin-ghpages": "~2.4.2",
-    "backbone": "~1.1.0",
     "miniview": "~1.2.0",
     "pointers": "~1.1.3",
-    "docpad-plugin-styl": "~2.0.0"
+    "docpad-plugin-styl": "~2.0.0",
+    "query-engine": "~1.5.7",
+    "exoskeleton": "~0.6.3"
   },
   "main": "node_modules/docpad/bin/docpad-server"
 }

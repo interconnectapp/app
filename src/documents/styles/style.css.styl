@@ -1,8 +1,27 @@
 /* Your styles go here */
 
+.hidden
+	display: none
+
 .person
 	background: black
 	width: 320px
 	height: 240px
 	float: left
 	border: 1px solid black
+	position: relative
+
+	.name
+		position: absolute
+		bottom: 0
+		left: 0
+		width: 100%
+		z-index: 500
+
+		background: gray
+		color: white
+
+		height: 1em
+
+.people
+	background: gray

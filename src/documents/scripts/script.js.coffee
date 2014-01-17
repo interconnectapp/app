@@ -5,24 +5,112 @@ captureConfig = require("rtc-captureconfig")
 grayScaleFilter = require("rtc-videoproc/filters/grayscale")
 $ = jQuery = require("jquery-browserify")
 
+window.$ = window.jQuery = jQuery
+
+MiniView = require('miniview').View
+{Pointer} = require('pointers')
+{QueryCollection} = require('query-engine')
+
+class View extends MiniView
+	point: (args...) ->
+		pointer = new Pointer(args...)
+		(@pointers ?= []).push(pointer)
+		return pointer
+
+	destroy: ->
+		pointer.destroy()  for pointer in @pointers  if @pointers
+		@pointers = null
+		return super
+
+# Define the Base Collection that uses QueryEngine.
+# QueryEngine adds NoSQL querying abilities to our collections
+class Collection extends QueryCollection
+	collection: Collection
+
+# Define the Base Model that uses Backbone.js
+class Model extends window.Backbone.Model
 
 
-class App
+class Person extends Model
+	# Everyone
+	stream: false
+	media: false
+	video: false
+	canvas: false
+
+	# Peers
+	snap: false
+	streaming: false
+
+	# Attributes
+	default:
+		# Everyone
+		id: null
+		name: false
+
+class People extends Collection
+	model: Person
+	collection: People
+
+# Person View
+class PersonView extends View
+	el: $('.person:last').remove().first().prop('outerHTML')
+
+	elements:
+		'.name': '$name'
+		'.video': '$video'
+		'.image': '$image'
+		'.stream': '$stream'
+
+	render: =>
+		# Prepare
+		{item, $el, $name} = @
+
+		# Apply
+		$el.addClass('person-'+item.id)
+
+		# Apply
+		@point(
+			item: item
+			itemAttributes: ['name']
+			element: $name
+		).bind()
+
+		# Chain
+		@
+
+
+# App
+class App extends View
+	el: $('.app:last').remove().first().prop('outerHTML')
+
 	config: null
 	signaller: null
 	local: null
 	peers: null
 
+	elements:
+		'.peers': '$peers'
+
 	constructor: (opts) ->
+		super
+
 		@config = opts
-		@local = {}
-		@local.$el = @config.$el.find('.me').addClass('person')
-		@local.el = @local.$el.get(0)
-		@local.stream = false
-		@local.media = false
-		@local.video = false
-		@local.canvas = false
-		@peers = {}
+
+		@local = new Person(
+			id: 'self'
+			name: prompt('What is your name?')
+		)
+
+		@localView = new PersonView(
+			item: @local
+		)
+		@localView.render().$el.addClass('me').prependTo(@$el)
+
+		@peersCollection = new People([], {
+			name: 'Peers Collection'
+		})
+
 		@
 
 	# Create high bandwidth local stream
@@ -34,15 +122,16 @@ class App
 			@local.stream = stream
 		)
 
-		@local.video = $(@local.media.render(@local.el))
+		@local.video = $(@local.media.render @localView.$video.get(0))
 			.attr('muted', '')
 			#.attr('controls', '')
 			.addClass('mine')
+			.removeClass('hidden')
 
 		@
 
 	createLocalSnaps: ->
-		@local.canvas = videoproc(@local.el, @config.snapOptions)
+		@local.canvas = videoproc(document.body, @config.snapOptions)
 		@local.canvas.style.display = "none"
 		@local.media.render(@local.canvas)
 
@@ -53,9 +142,9 @@ class App
 		# capture the image data from the canvas and send via the data channel
 		@local.canvas.addEventListener "postprocess", (event) =>
 			dataURI = @local.canvas.toDataURL(@config.snapOptions.mime, @config.snapOptions.quality)
-			for own peerId,peer of @peers
+			@peersCollection.each (peer) =>
 				if peer.streaming isnt true
-					@sendMessage(peerId, {action:'snap', dataURI})
+					@sendMessage(peer.id, {action:'snap', dataURI})
 
 		@
 
@@ -85,6 +174,8 @@ class App
 				peer = @getPeer(peerId)
 				peer.channel = peerChannel
 
+				@sendMessage(peerId, {action:'get-peer-data'})
+
 				peer.channel.onmessage = (event) =>
 					data = JSON.parse(event.data or '{}') or {}
 					console.log('received message', data, 'from', peerId, 'event', event)  if data.action isnt 'snap'
@@ -98,6 +189,16 @@ class App
 						when 'cancel-stream'
 							console.log 'CANCEL STREAM', peerId
 							@cancelStream(peerId)
+
+						when 'get-peer-data'
+							@sendMessage(peerId, {
+								action: 'set-peer-data'
+								attributes:
+									name: @local.get('name')
+							})
+
+						when 'set-peer-data'
+							peer.set(data.attributes)
 
 						# NOTE:
 						# This is here as the addstream event only works once
@@ -114,14 +215,9 @@ class App
 							#@sendMessage(peerId, {action:'cancel-stream'})
 
 						when 'snap'
-							if peer.snap is false
-								peer.snap = $("<img>")
-									.data('peerId', peerId)
-									.addClass('theirs')
-									.attr('src', 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==')
-									.appendTo(peer.el)
-
-							peer.snap.attr("src", data.dataURI)
+							peer.snap = @getPeerView(peerId)?.$image
+								.attr("src", data.dataURI)
+								.removeClass('hidden')
 			)
 
 			.on("peer:connect", (peerConnection, peerId, data, monitor) =>
@@ -153,30 +249,30 @@ class App
 		@
 
 	getPeer: (peerId) ->
-		return @peers[peerId] or @createPeer(peerId)
+		peer = @peersCollection.get(peerId)
+		return peer  if peer
 
-	createPeer: (peerId) ->
-		peer = @peers[peerId] ?= {}
-		peer.$el = $('<div>').addClass('peer person').appendTo(@config.$el.find('.peers'))
-		peer.el = peer.$el.get(0)
-		peer.streaming = false
-		peer.snap = false
-		peer.stream = false
-		peer.media = false
-		peer.video = false
+		peer = new Person(
+			id: peerId
+		)
+		@peersCollection.add(peer)
+
 		return peer
+
+	getPeerView: (peerId) ->
+		return @$el.find('.person-'+peerId).data('view')
 
 	destroyPeer: (peerId) ->
 		@destroyPeerSnap(peerId)
 		@destroyPeerStream(peerId)
-		delete @peers[peerId]
+		@peersCollection.remove(peerId)
 		@
 
 	destroyPeerSnap: (peerId) ->
 		peer = @getPeer(peerId)
 
 		if peer?.snap
-			peer.snap.remove()
+			peer.snap.addClass('hidden')
 			peer.snap = false
 
 		@
@@ -188,7 +284,7 @@ class App
 			peer.media = false
 
 		if peer?.video
-			peer.video.remove()
+			peer.video.addClass('hidden')
 			peer.video = false
 
 		@
@@ -201,10 +297,10 @@ class App
 		if peer and peer.stream and peer.video is false
 			console.log 'SHOW STREAM', peerId
 			peer.media = media(peer.stream)  if peer.media is false
-			peer.video = $(peer.media.render(peer.el))
+			peer.video = $(peer.media.render @getPeerView(peerId).$video.get(0))
 				.data('peerId', peerId)
 				#.attr('controls', '')
-				.addClass('theirs')
+				.removeClass('hidden')
 			@destroyPeerSnap(peerId)
 
 		@
@@ -221,15 +317,21 @@ class App
 
 
 	render: ->
-		@config.$el.on("click", "img.theirs, video.theirs", (event) =>
-			peerId = $(event.target).data('peerId')
-			peer = @getPeer(peerId)
+		@$el.on("click", ".peers .stream", (event) =>
+			peer = $(event.target).parents('.person:first').data('view').item
 			if peer.video
 				action = 'cancel-stream'
 			else
 				action = 'send-stream'
-			@sendMessage(peerId, {action})
+			@sendMessage(peer.id, {action})
 		)
+
+		@point(
+			item: @peersCollection
+			viewClass: PersonView
+			element: @$peers
+		).bind()
+
 		@
 
 	setup: ->
@@ -239,10 +341,7 @@ class App
 		@render()
 		@
 
-$app = $('.app')
 app = new App(
-	el: $app.get(0)
-	$el: $app
 	signalHost: location.href.replace(/(^.*\/).*$/, "$1")  # 'http://rtc.io/switchboard/'
 	connectionOptions:
 		room: "demo-snaps"
@@ -255,6 +354,6 @@ app = new App(
 		muted: false
 		constraints: captureConfig("camera max:320x240").toConstraints()
 )
-
 app.setup()
+app.$el.appendTo(document.body)
 
