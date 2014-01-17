@@ -40,7 +40,8 @@ class Person extends Model
 
 	# Peers
 	snap: false
-	streaming: false
+	streamingTo: false
+	streamingFrom: false
 
 	# Attributes
 	default:
@@ -122,7 +123,7 @@ class App extends View
 			@local.stream = stream
 		)
 
-		@local.video = $(@local.media.render @localView.$video.get(0))
+		$(@local.media.render @localView.$video.get(0))
 			.attr('muted', '')
 			#.attr('controls', '')
 			.addClass('mine')
@@ -132,6 +133,8 @@ class App extends View
 
 	createLocalSnaps: ->
 		@local.canvas = videoproc(document.body, @config.snapOptions)
+		#@local.canvas.width = 320/2
+		#@local.canvas.height = 240/2
 		@local.canvas.style.display = "none"
 		@local.media.render(@local.canvas)
 
@@ -141,27 +144,34 @@ class App extends View
 		# once the canvas has been updated with the filters applied
 		# capture the image data from the canvas and send via the data channel
 		@local.canvas.addEventListener "postprocess", (event) =>
-			dataURI = @local.canvas.toDataURL(@config.snapOptions.mime, @config.snapOptions.quality)
+			snap = @getSnap()
 			@peersCollection.each (peer) =>
-				if peer.streaming isnt true
-					@sendMessage(peer.id, {action:'snap', dataURI})
+				if peer.streamingTo is false
+					@sendSnap(peer.id, snap)
 
 		@
 
+	getSnap: ->
+		@local.canvas.toDataURL(@config.snapOptions.mime, @config.snapOptions.quality)
+
+	sendSnap: (peerId, snap) ->
+		snap ?= @getSnap()
+		@sendMessage(peerId, {action:'snap', snap})
+
 	sendStream: (peerId) ->
 		peer = @getPeer(peerId)
-		if peer.streaming is false
+		if peer.streamingTo is false
 			peer.connection.addStream(@local.stream)
-			peer.streaming = true
+			peer.streamingTo = true
 			@sendMessage(peerId, {action:'sent-stream'})
 		@
 
 	cancelStream: (peerId) ->
 		peer = @getPeer(peerId)
-		if peer.streaming is true
+		if peer.streamingTo is true
 			peer.connection.removeStream(@local.stream)  if @local.stream?
-			peer.streaming = false
-			@sendMessage(peerId, {action:'cancelled-stream'})
+			peer.streamingTo = false
+			@sendMessage(peerId, {action:'cancelled-stream', snap:@getSnap()})
 		@
 
 	createConnection: ->
@@ -210,13 +220,24 @@ class App extends View
 
 						when 'cancelled-stream'
 							console.log 'CANCELLED STREAM', peerId
-							@destroyPeerStream(peerId)
 							@cancelStream(peerId)
 							#@sendMessage(peerId, {action:'cancel-stream'})
 
+							{$image, $video} = @getPeerView(peerId)
+
+							@destroyPeerStream(peerId)
+							$video
+								.addClass('hidden')
+
+							$image
+								.attr("src", data.snap)
+								.removeClass('hidden')
+
 						when 'snap'
-							peer.snap = @getPeerView(peerId)?.$image
-								.attr("src", data.dataURI)
+							{$image, $video} = @getPeerView(peerId)
+
+							$image
+								.attr("src", data.snap)
 								.removeClass('hidden')
 			)
 
@@ -263,18 +284,8 @@ class App extends View
 		return @$el.find('.person-'+peerId).data('view')
 
 	destroyPeer: (peerId) ->
-		@destroyPeerSnap(peerId)
 		@destroyPeerStream(peerId)
 		@peersCollection.remove(peerId)
-		@
-
-	destroyPeerSnap: (peerId) ->
-		peer = @getPeer(peerId)
-
-		if peer?.snap
-			peer.snap.addClass('hidden')
-			peer.snap = false
-
 		@
 
 	destroyPeerStream: (peerId) ->
@@ -283,10 +294,6 @@ class App extends View
 		if peer?.media
 			peer.media = false
 
-		if peer?.video
-			peer.video.addClass('hidden')
-			peer.video = false
-
 		@
 
 	showPeerStream: (peerId) ->
@@ -294,14 +301,15 @@ class App extends View
 
 		console.log 'SHOW STREAM BEFORE', peerId, peer.connection?.getRemoteStreams()
 
-		if peer and peer.stream and peer.video is false
+		if peer and peer.stream
 			console.log 'SHOW STREAM', peerId
 			peer.media = media(peer.stream)  if peer.media is false
-			peer.video = $(peer.media.render @getPeerView(peerId).$video.get(0))
+
+			$(peer.media.render @getPeerView(peerId).$video.get(0))
 				.data('peerId', peerId)
 				#.attr('controls', '')
 				.removeClass('hidden')
-			@destroyPeerSnap(peerId)
+
 
 		@
 
@@ -347,9 +355,9 @@ app = new App(
 		room: "demo-snaps"
 		debug: false
 	snapOptions:
-		fps: 0.5
+		fps: 0.2
 		mime: 'image/jpeg'
-		quality: 0.8
+		quality: 0.5
 	mediaOptions:
 		muted: false
 		constraints: captureConfig("camera max:320x240").toConstraints()

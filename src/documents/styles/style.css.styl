@@ -1,15 +1,21 @@
 /* Your styles go here */
 
+*
+	// Make paddings be included within the width
+	box-sizing: border-box
+
 .hidden
 	display: none
 
 .person
 	background: black
-	width: 320px
-	height: 240px
 	float: left
 	border: 1px solid black
 	position: relative
+
+	&, .stream, .image, .viewo
+		width: 320px
+		height: 240px
 
 	.name
 		position: absolute
