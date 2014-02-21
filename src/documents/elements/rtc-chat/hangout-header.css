@@ -12,7 +12,7 @@ autoprefix: true
 	cursor: pointer;
 	align-items: flex-start;
 }
-:host:before {
+:host::before {
 	content: "";
 	position: absolute;
 	top: -100%;
@@ -20,7 +20,6 @@ autoprefix: true
 	right: 0;
 	bottom: -100%;
 	opacity: 0.25;
-	background: -webkit-radial-gradient(white, black);
 	background: radial-gradient(white, black);
 	animation: pulse 1s ease alternate infinite;
 }
@@ -42,7 +41,6 @@ autoprefix: true
 	position: relative;
 }
 .right {
-	-webkit-flex: 1;
 	flex: 1;
 	text-align: right;
 }
