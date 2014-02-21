@@ -4,7 +4,7 @@ browserify: true
 
 Polymer('rtc-app', {
 	room: 'interconnect',
-	host: location.href.indexOf('github.io') !== -1 ? 'http://rtc.io/switchboard/' : location.href.replace(/(^.*\/).*$/, "$1"),
+	host: location.origin.indexOf('github.io') !== -1 ? 'http://rtc.io/switchboard/' : location.origin,
 	peers: null,
 	myStream: null,
 	myName: null,
