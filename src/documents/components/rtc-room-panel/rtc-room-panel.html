@@ -8,9 +8,8 @@ Then finally, everyone else (the people in snapshot mode).
 -->
 <polymer-element name="rtc-room-panel" lightdom noscript>
 	<template>
-		<content select="rtc-person"></content>
-		<content select="rtc-peer[streaming]:not([muted])"></content>
-		<content select="rtc-peer[streaming][muted]"></content>
+		<content select="rtc-person#me"></content>
+		<content select="rtc-person[streaming]"></content>
 		<content select="*"></content>
 	</template>
 </polymer-element>
