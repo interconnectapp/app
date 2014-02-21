@@ -1,5 +1,8 @@
+---
+autoprefix: true
+---
+
 :host {
-	display: -webkit-flex;
 	display: flex;
 	background: #404040;
 	color: white;
@@ -7,7 +10,6 @@
 	position: relative;
 	overflow: hidden;
 	cursor: pointer;
-	-webkit-align-items: flex-start;
 	align-items: flex-start;
 }
 :host:before {
@@ -20,7 +22,6 @@
 	opacity: 0.25;
 	background: -webkit-radial-gradient(white, black);
 	background: radial-gradient(white, black);
-	-webkit-animation: pulse 1s ease alternate infinite;
 	animation: pulse 1s ease alternate infinite;
 }
 

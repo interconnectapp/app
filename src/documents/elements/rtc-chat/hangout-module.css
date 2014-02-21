@@ -1,11 +1,13 @@
+---
+autoprefix: true
+---
+
 :host {
-	display: -webkit-flex;
 	display: flex;
 	width: 260px;
 	font-family: arial,sans-serif;
 
 	background: #e5e5e5;
-	-webkit-flex-direction: column;
 	flex-direction: column;
 }
 
@@ -25,5 +27,4 @@ hangout-discussion {
 #msg:focus {
 	outline: none;
 	border-color: lightblue;
-}
 }
