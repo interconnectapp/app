@@ -10,6 +10,7 @@
 
 	``` bash
 	npm install
+	[sudo] gem install compass
 	bower install
 	```
 
