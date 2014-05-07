@@ -18,16 +18,15 @@ docpadConfig = {
 		# Specify some site properties
 		site:
 			# The production url of our website
-			url: 'http://bevry.github.io/interconnect/'
+			url: 'http://app.interconnect.io/'
 
 			# Here are some old site urls that you would like to redirect from
 			oldUrls: [
-				'www.interconnect.com',
 				'interconnect.herokuapp.com'
 			]
 
 			# The default title of our website
-			title: "InterConnect"
+			title: "Interconnect"
 
 			# The website description (for SEO)
 			description: """
