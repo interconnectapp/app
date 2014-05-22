@@ -53,12 +53,12 @@
     "dominject": "~1.0.3",
     "freeice": "~0.2.1",
     "moment": "^2.5.1",
-    "rtc-bufferedchannel": "~0.2.2",
+    "rtc-bufferedchannel": "~0.5.0",
     "rtc-captureconfig": "~0.4.0",
-    "rtc-media": "~1.5.1",
-    "rtc-quickconnect": "~0.9.2",
-    "rtc-switchboard": "~0.5.1",
-    "rtc-videoproc": "~0.10.1"
+    "rtc-media": "~1.6.2",
+    "rtc-quickconnect": "~1.0.3",
+    "rtc-switchboard": "~0.10.1",
+    "rtc-videoproc": "~0.11.1"
   },
   "main": "node_modules/docpad/bin/docpad-server",
   "scripts": {

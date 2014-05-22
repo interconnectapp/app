@@ -175,7 +175,7 @@ Polymer('rtc-app', {
 		me.signaller = require('rtc-quickconnect')(me.host, signallerOpts);
 		me.signaller
 			.createDataChannel('messages')
-			.on('messages:open', function(peerChannel, peerID){
+			.on('channel:opened:messages', function(peerID, peerChannel){
 				var peer = me.getPeer(peerID);
 				peer.channel = require('rtc-bufferedchannel')(peerChannel);
 
@@ -240,7 +240,7 @@ Polymer('rtc-app', {
 					}
 				});
 			})
-			.on('peer:connect', function(peerConnection, peerID, data, monitor){
+			.on('call:started', function(peerID, peerConnection, data){
 				console.log('connected to', peerID);
 				var peer = me.getPeer(peerID);
 				peer.className += 'peer';
@@ -285,7 +285,7 @@ Polymer('rtc-app', {
 					me.stopStream(peerID);
 				};
 			})
-			.on('peer:leave', function(peerID){
+			.on('call:ended', function(peerID){
 				console.log('disconnected to', peerID);
 				me.destroyPeer(peerID);
 			});
