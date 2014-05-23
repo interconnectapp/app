@@ -1,7 +1,8 @@
----
+/* ---
 browserify: true
----
+--- */
 
+/* global Polymer */
 Polymer('rtc-videoproc', {
 	fps: 0.2,
 	mime: 'image/jpeg',

@@ -1,3 +1,4 @@
+/* global Polymer */
 Polymer('rtc-person', {
 	video: null,
 	streaming: false,

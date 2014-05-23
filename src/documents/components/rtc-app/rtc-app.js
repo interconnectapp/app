@@ -1,7 +1,8 @@
----
+/* ---
 browserify: true
----
+--- */
 
+/* global Polymer */
 Polymer('rtc-app', {
 	room: 'interconnect',
 	host: location.origin.indexOf('github.io') !== -1 ? 'http://rtc.io/switchboard/' : location.origin,

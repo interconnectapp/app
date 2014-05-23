@@ -36,7 +36,7 @@
   },
   "dependencies": {
     "bower": "^1.2.8",
-    "docpad": "~6.65.0",
+    "docpad": "~6.66.0",
     "docpad-plugin-autoprefix": "~2.0.0",
     "docpad-plugin-browserifydocs": "~2.2.0",
     "docpad-plugin-coffeekup": "~2.2.0",

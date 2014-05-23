@@ -1,3 +1,4 @@
+/* global Polymer */
 Polymer('rtc-video', {
 	src: null,
 	video: null,

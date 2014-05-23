@@ -1,7 +1,8 @@
----
+/* ---
 browserify: true
----
+--- */
 
+/* global Polymer */
 Polymer('rtc-media', {
 	capture: 'camera max:320x240',
 	stream: null,
