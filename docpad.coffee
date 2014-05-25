@@ -99,6 +99,13 @@ docpadConfig = {
 			{serverHttp, serverExpress} = opts
 			docpad = @docpad
 
+			# CORS
+			opts.server.use (req,res,next) ->
+				res.header('Access-Control-Allow-Origin', '*');
+				res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+				res.header('Access-Control-Allow-Headers', 'Content-Type,X-Requested-With');
+				return next()
+
 			# As we are now running in an event,
 			# ensure we are using the latest copy of the docpad configuraiton
 			# and fetch our urls from it

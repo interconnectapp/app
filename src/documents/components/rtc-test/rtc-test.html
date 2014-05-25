@@ -1,0 +1,24 @@
+
+
+<link rel="import" href="http://10.45.1.68:9778/components/rtc-media/rtc-media.html" />
+<link rel="import" href="http://10.45.1.68:9778/components/rtc-videoproc/rtc-videoproc.html" />
+<link rel="import" href="http://10.45.1.68:9778/components/rtc-video/rtc-video.html" />
+
+
+<link rel="import" href="http://10.45.1.68:9778/components/rtc-person/rtc-person.html" />
+<link rel="import" href="http://10.45.1.68:9778/components/rtc-room-panel/rtc-room-panel.html" />
+
+<polymer-element name="rtc-test" attributes="name">
+	<template>
+
+		<div>Sup {{name}}</div>
+
+		<rtc-media id="media" stream="{{myStream}}" streamURI="{{myStreamURI}}" muted></rtc-media>
+
+		<rtc-video id="video" class="hidden" src="{{myStreamURI}}" video="{{myVideo}}"  playing muted></rtc-video>
+
+		<rtc-videoproc id="snapshot" class="hidden" src="{{myVideo}}" imageURI="{{mySnapshotURI}}" filter="grayscale"></rtc-videoproc>
+
+	</template>
+	<script src="./rtc-test.js"></script>
+</polymer-element>
