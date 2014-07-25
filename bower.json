@@ -16,9 +16,8 @@
     "tests"
   ],
   "dependencies": {
-    "polymer": "Polymer/polymer#~0.3.2",
-    "core-elements": "Polymer/core-elements#~0.3.2",
-    "polymer-elements": "Polymer/polymer-elements#~0.3.0"
+    "polymer": "Polymer/polymer#~0.3.4",
+    "core-elements": "Polymer/core-elements#~0.3.4"
   },
   "main": "node_modules/docpad/bin/docpad-server"
 }

@@ -2,7 +2,7 @@
 # The RTC App
 This is us initialising our room and it working with all the magic.
 -->
-<link rel="import" href="#{SITE_URL}bower_components/polymer-localstorage/polymer-localstorage.html">
+<link rel="import" href="#{SITE_URL}bower_components/core-localstorage/core-localstorage.html">
 
 <link rel="import" href="../rtc-media/rtc-media.html" />
 <link rel="import" href="../rtc-videoproc/rtc-videoproc.html" />
@@ -13,7 +13,7 @@ This is us initialising our room and it working with all the magic.
 	<template>
 		<link href="./rtc-app.css" rel="stylesheet" />
 
-		<polymer-localstorage name="my-name" value="{{myName}}" on-polymer-localstorage-load="{{getName}}"></polymer-localstorage>
+		<core-localstorage name="my-name" value="{{myName}}" on-core-localstorage-load="{{getName}}"></core-localstorage>
 		<rtc-media id="media" stream="{{myStream}}" streamURI="{{myStreamURI}}" muted></rtc-media>
 		<rtc-videoproc id="snapshot" class="hidden" src="{{myVideo}}" imageURI="{{mySnapshotURI}}" filter="grayscale"></rtc-videoproc>
 
