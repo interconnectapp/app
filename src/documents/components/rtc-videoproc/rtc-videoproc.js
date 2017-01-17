@@ -9,12 +9,12 @@ Polymer('rtc-videoproc', {
 	quality: 0.8,
 	greedy: true,
 	filter: null,  // grayscale
-	filters: null,
 	src: null,
 	videoproc: null,
 	imageURI: null,
 	ready: function(){
 		this.filters = {};
+		this.filters.grayscale = require('rtc-filter-grayscale');
 		this.filters.blue = function(imageData) {
 			var channels = imageData.data;
 			var rgb = [];
@@ -63,29 +63,7 @@ Polymer('rtc-videoproc', {
 		}
 	},
 	filterChanged: function(oldValue, newValue) {
-		var me = this;
-		if ( newValue && !me.filters[newValue] ) {
-			var filterSource = '//wzrd.in/bundle/rtc-filter-'+newValue+'@latest';
-			var dominject = require('dominject');
-			dominject({
-				type: 'script',
-				url: filterSource,
-				next: function(err, element) {
-					if ( err ) {
-						console.log(err);
-					} else {
-						try {
-							me.filters[me.filter] = require('rtc-filter-'+me.filter);
-						} catch (err) {
-							console.log(err);
-							return;
-						}
-
-						me.refresh.call(me);
-					}
-				}
-			});
-		}
+		this.refresh();
 	},
 	srcChanged: function(oldValue, newValue) {
 		this.refresh();
