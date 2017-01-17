@@ -1,0 +1,26 @@
+<!--
+# The RTC App
+This is us initialising our room and it working with all the magic.
+-->
+<link rel="import" href="https://interconnectapp.github.io/app/bower_components/core-localstorage/core-localstorage.html">
+
+<link rel="import" href="https://interconnectapp.github.io/app/components/rtc-media/rtc-media.html" />
+<link rel="import" href="https://interconnectapp.github.io/app/components/rtc-videoproc/rtc-videoproc.html" />
+<link rel="import" href="https://interconnectapp.github.io/app/components/rtc-person/rtc-person.html" />
+<link rel="import" href="https://interconnectapp.github.io/app/components/rtc-room-panel/rtc-room-panel.html" />
+
+<polymer-element name="rtc-app" attributes="host room">
+	<template>
+		<link href="https://interconnectapp.github.io/app/components/rtc-app/rtc-app.css" rel="stylesheet" />
+
+		<core-localstorage name="my-name" value="{{myName}}" on-core-localstorage-load="{{getName}}"></core-localstorage>
+		<rtc-media id="media" stream="{{myStream}}" streamURI="{{myStreamURI}}" muted></rtc-media>
+		<rtc-videoproc id="snapshot" class="hidden" src="{{myVideo}}" imageURI="{{mySnapshotURI}}" filter="grayscale"></rtc-videoproc>
+
+		<rtc-room-panel id="people">
+			<rtc-person id="me" name="{{myName}}" streamURI="{{myStreamURI}}" snapshotURI="{{mySnapshotURI}}" video="{{myVideo}}" streaming muted></rtc-person>
+		</rtc-room-panel>
+
+	</template>
+	<script src="https://interconnectapp.github.io/app/components/rtc-app/rtc-app.js"></script>
+</polymer-element>

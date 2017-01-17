@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+	<!-- Standard Meta -->
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<!-- Site Properities -->
+	<title>Interconnect</title>
+	<meta name="description" content="High-bandwidth virtual office for open teams. Public rooms are free. Private rooms cost. FOSS." />
+	<meta name="keywords" content="interconnect, webrtc, irc, chat, community, communities, connect, connected, recording, recorded" />
+
+	<!-- DocPad Meta -->
+	<meta name="generator" content="DocPad v6.79.0" />
+
+	<!-- DocPad Styles + Our Own -->
+	
+
+	<!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+</head>
+<body>
+	<!--[if lt IE 7]>
+	<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+	<![endif]-->
+
+	<link rel="import" href="https://interconnectapp.github.io/app/bower_components/polymer/polymer.html" />
+
+<link rel="import" href="https://interconnectapp.github.io/app/components/hangout/hangout-module.html" />
+
+<style>
+#hangouts {
+	position: absolute;
+	bottom: 0;
+	right: 10px;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-align-items: flex-end;
+	align-items: flex-end;
+}
+hangout-module {
+	margin-left: 10px;
+}
+</style>
+
+<button>New chat</button>
+
+<div id="hangouts">
+	<!-- <hangout-module from="Paul Irish" profile="118075919496626375791"></hangout-module> -->
+</div>
+
+<script>
+document.querySelector('button').addEventListener('click', function(e) {
+	var hangout = document.createElement('hangout-module');
+	hangout.from = 'Larry Page';
+	hangout.profile = '118075919496626375791';
+
+	hangout.messages = [{
+		profile: '106189723444098348646',
+		datetime: new Date().toISOString(),
+		isother: true,
+		msg: ['Hola']
+	}];
+
+	document.querySelector('#hangouts').appendChild(hangout);
+});
+
+document.addEventListener('WebComponentsReady', function(e) {
+	var hangout = document.createElement('hangout-module');
+	hangout.from = 'Paul Irish';
+	hangout.profile = '118075919496626375791';
+
+	// var input = document.querySelector('input');
+	// input.addEventListener('keyup', function(e) {
+	//	 hangout.from = e.target.value;
+	// });
+
+	hangout.messages = [{
+		profile: '113127438179392830442',
+		datetime: '2013-06-24T12:02',
+		isother: true,
+		msg: ["Feelin' this Web Components thing.", 'Heard anything about it?']
+	}, {
+		profile: '118075919496626375791',
+		datetime: '2013-06-24T12:03',
+		msg: ['Totes amazing']
+	}, {
+		profile: '118075919496626375791',
+		datetime: '2013-06-24T12:05',
+		msg: ['Have you tried Polymer yet?']
+	}, {
+		profile: '113127438179392830442',
+		datetime: '2013-06-24T12:06',
+		isother: true,
+		msg: ['Naw Bro', "I'll give it a spin"]
+	}];
+
+	document.querySelector('#hangouts').appendChild(hangout);
+});
+</script>
+
+	<!-- DocPad Scripts + Our Own -->
+	<script defer="defer"  src="https://interconnectapp.github.io/app/bower_components/platform/platform.js"></script>
+</body>
+</html>
