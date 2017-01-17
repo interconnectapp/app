@@ -35,7 +35,7 @@
     "npm": "3"
   },
   "dependencies": {
-    "bower": "^1.2.8",
+    "bower": "^1.8.0",
     "docpad": "~6.79.0",
     "docpad-plugin-autoprefix": "~2.0.0",
     "docpad-plugin-browserifydocs": "~2.2.0",
@@ -46,14 +46,17 @@
     "docpad-plugin-less": "~2.4.1",
     "docpad-plugin-raw": "~2.4.1",
     "dominject": "~1.0.3",
-    "freeice": "~1.0.0",
-    "moment": "^2.5.1",
+    "freeice": "~2.2.0",
+    "getusermedia": "^2.0.0",
+    "moment": "^2.17.1",
+    "rtc-attach": "^2.0.1",
     "rtc-bufferedchannel": "~0.5.0",
-    "rtc-captureconfig": "~1.0.0",
-    "rtc-media": "~1.9.0",
-    "rtc-quickconnect": "~2.6.0",
-    "rtc-switchboard": "~0.10.1",
+    "rtc-captureconfig": "~4.1.0",
+    "rtc-dcstream": "^2.1.1",
     "rtc-filter-grayscale": "^0.1.0",
+    "rtc-media": "~2.0.1",
+    "rtc-quickconnect": "~5.8.0",
+    "rtc-switchboard": "~3.2.0",
     "rtc-videoproc": "~0.11.1"
   },
   "scripts": {

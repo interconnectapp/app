@@ -5,7 +5,7 @@ browserify: true
 /* global Polymer */
 Polymer('rtc-app', {
 	room: 'interconnect',
-	host: location.origin.indexOf('github.io') !== -1 ? 'http://switchboard.rtc.io' : location.origin,
+	host: 'https://switchboard.rtc.io/',
 	peers: null,
 	myStream: null,
 	myName: null,
@@ -16,17 +16,17 @@ Polymer('rtc-app', {
 	blipSound: null,
 	callSound: null,
 	ready: function(){
+		console.log('-> READY');
 		this.peers = {};
 		this.loadSounds();
 		this.loadConnection();
 		return this;
 	},
 	loadConnection: function(){
+		console.log('-> LOAD CONNECTION');
 		var me = this;
 		var signallerOpts = {
-			reactive: true,
 			room: me.room,
-			debug: false,
 			iceServers: null
 		};
 
@@ -58,13 +58,14 @@ Polymer('rtc-app', {
 		return this;
 	},
 	loadSounds: function(){
+		console.log('-> LOAD SOUNDS');
 		var oggSupported = (new Audio()).canPlayType("audio/ogg; codecs=vorbis");
 		if ( oggSupported ) {
 			this.sounds = true;
 			Audio.prototype.load = function(){
 				this.preload = 'auto';  // true is not valid
-				this.play();
-				this.pause();
+				// this.play();
+				// this.pause();
 			};
 			Audio.prototype.start = function(){
 				this.pause();
@@ -80,6 +81,7 @@ Polymer('rtc-app', {
 		return this;
 	},
 	startStream: function(peerID) {
+		console.log('-> START STREAM', peerID);
 		var me = this;
 		var peer = me.getPeer(peerID);
 		if ( !peer.streaming ) {
@@ -104,6 +106,7 @@ Polymer('rtc-app', {
 		}
 	},
 	stopStream: function(peerID) {
+		console.log('-> STOP STREAM', peerID);
 		var me = this;
 		var peer = me.getPeer(peerID);
 		if ( peer.streaming ) {
@@ -128,6 +131,7 @@ Polymer('rtc-app', {
 		}
 	},
 	getPeer: function(peerID) {
+		console.log('-> GET PEER', peerID);
 		var me = this;
 		var peer = me.peers[peerID] || null;
 		if ( peer === null ) {
@@ -142,6 +146,7 @@ Polymer('rtc-app', {
 		return peer;
 	},
 	destroyPeer: function(peerID) {
+		console.log('-> DESTROY PEER', peerID);
 		var me = this;
 		var peer = me.peers[peerID] || null;
 		if ( peer) {
@@ -151,6 +156,7 @@ Polymer('rtc-app', {
 		return null;
 	},
 	getName: function(){
+		console.log('-> GET NAME');
 		var me = this;
 		while ( !me.myName ) {
 			me.myName = prompt('What is your name?');
@@ -163,6 +169,7 @@ Polymer('rtc-app', {
 		});
 	},
 	sendMessage: function(data){
+		console.log('-> SEND MESSAGE', data);
 		var me = this;
 		var message = JSON.stringify(data);
 		Object.keys(me.peers).forEach(function(peerID){
@@ -171,21 +178,25 @@ Polymer('rtc-app', {
 		});
 	},
 	setupConnection: function(signallerOpts){
+		console.log('-> SETUP CONNECTION');
 		var me = this;
 		console.log('Setting up the connection with these options:', signallerOpts);
 		me.signaller = require('rtc-quickconnect')(me.host, signallerOpts);
 		me.signaller
+			.reactive()
 			.createDataChannel('messages')
 			.on('channel:opened:messages', function(peerID, peerChannel){
+				console.log('CHANNEL:OPENED:MESSAGES', peerID);
+
 				var peer = me.getPeer(peerID);
-				peer.channel = require('rtc-bufferedchannel')(peerChannel);
+				peer.channel = require('rtc-dcstream')(peerChannel);
 
 				peer.sendMessage = function(data){
 					if ( data.action !== 'snap' )  console.log('send message', data, 'to', peerID);
 
 					var message = JSON.stringify(data);
 					try {
-						peer.channel.send(message);
+						peer.channel.write(message);
 					}
 					catch (err) {
 						console.log('send message', data, 'to', peerID, 'FAILED for reason', err);
@@ -203,7 +214,7 @@ Polymer('rtc-app', {
 					var data = null;
 
 					try {
-						data = JSON.parse(message || '{}') || {};
+						data = JSON.parse(message.toString() || '{}') || {};
 					}
 					catch (err) {
 						console.log('FAILED to parse the data', data);
@@ -242,7 +253,7 @@ Polymer('rtc-app', {
 				});
 			})
 			.on('call:started', function(peerID, peerConnection, data){
-				console.log('connected to', peerID);
+				console.log('CALL:STARTED', peerID);
 				var peer = me.getPeer(peerID);
 				peer.className += 'peer';
 				peer.streaming = false;
@@ -267,31 +278,31 @@ Polymer('rtc-app', {
 						}
 					}
 				});
-
-				peerConnection.onaddstream = function(event) {
-					console.log('RECEIVED STREAM', 'from', peerID);
-					if ( me.sounds ) {
-						me.blipSound.pause();
-						me.callSound.pause();
-					}
-					peer.stream = event.stream;
-					peer.streamURI = window.URL.createObjectURL(peer.stream);
-					peer.stream.onended = function(){
-						me.stopStream(peerID);
-					};
-					me.startStream(peerID);
-				};
-
-				peerConnection.onremovestream = function(event) {
-					me.stopStream(peerID);
-				};
 			})
 			.on('call:ended', function(peerID){
-				console.log('disconnected to', peerID);
+				console.log('CALL:ENDED', peerID);
 				me.destroyPeer(peerID);
+			})
+			.on('stream:added', function(peerID, stream, data) {
+				console.log('STREAM:ADDED', peerID);
+				if ( me.sounds ) {
+					me.blipSound.pause();
+					me.callSound.pause();
+				}
+				peer.stream = stream;
+				peer.streamURI = window.URL.createObjectURL(peer.stream);
+				peer.stream.onended = function(){
+					me.stopStream(peerID);
+				};
+				me.startStream(peerID);
+			})
+			.on('stream:removed', function(peerID) {
+				console.log('STREAM:REMOVED', peerID);
+				me.stopStream(peerID);
 			});
 	},
 	mySnapshotURIChanged: function(oldValue, newValue){
+		console.log('-> MY SNAPSHOT UI CHANGED');
 		var me = this;
 		// console.log('snapshot uri changed: ', newValue);
 		if ( newValue ) {
