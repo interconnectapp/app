@@ -71,8 +71,8 @@ Polymer('rtc-app', {
 				this.currentTime = 0;
 				this.play();
 			};
-			this.blipSound = new Audio('#{SITE_URL}sounds/notifications/Blip.ogg');
-			this.callSound = new Audio('#{SITE_URL}sounds/ringtones/Ubuntu.ogg');
+			this.blipSound = new Audio('#{SOUND}/notifications/Blip.ogg');
+			this.callSound = new Audio('#{SOUND}/ringtones/Ubuntu.ogg');
 			this.blipSound.load();
 			this.callSound.load();
 			this.callSound.loop = true;

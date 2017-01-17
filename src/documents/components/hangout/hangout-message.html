@@ -1,6 +1,6 @@
 <polymer-element name="hangout-message" attributes="from isother profile datetime now">
 	<template>
-		<link href="./hangout-message.css" rel="stylesheet" />
+		<link href="#{COMPONENT}/hangout/hangout-message.css" rel="stylesheet" />
 		<div class="avatar {{isother ? 'isother' : 'self'}}"><img src="//www.google.com/s2/photos/profile/{{profile}}?sz=40"></div>
 		<div class="messages">
 			<content></content>
@@ -9,5 +9,5 @@
 			</time>
 		</div>
 	</template>
-	<script src="./hangout-message.js"></script>
+	<script src="#{COMPONENT}/hangout/hangout-message.js"></script>
 </polymer-element>

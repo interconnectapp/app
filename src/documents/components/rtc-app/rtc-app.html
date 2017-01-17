@@ -2,16 +2,16 @@
 # The RTC App
 This is us initialising our room and it working with all the magic.
 -->
-<link rel="import" href="#{SITE_URL}bower_components/core-localstorage/core-localstorage.html">
+<link rel="import" href="#{BOWER}/core-localstorage/core-localstorage.html">
 
-<link rel="import" href="../rtc-media/rtc-media.html" />
-<link rel="import" href="../rtc-videoproc/rtc-videoproc.html" />
-<link rel="import" href="../rtc-person/rtc-person.html" />
-<link rel="import" href="../rtc-room-panel/rtc-room-panel.html" />
+<link rel="import" href="#{COMPONENT}/rtc-media/rtc-media.html" />
+<link rel="import" href="#{COMPONENT}/rtc-videoproc/rtc-videoproc.html" />
+<link rel="import" href="#{COMPONENT}/rtc-person/rtc-person.html" />
+<link rel="import" href="#{COMPONENT}/rtc-room-panel/rtc-room-panel.html" />
 
 <polymer-element name="rtc-app" attributes="host room">
 	<template>
-		<link href="./rtc-app.css" rel="stylesheet" />
+		<link href="#{COMPONENT}/rtc-app/rtc-app.css" rel="stylesheet" />
 
 		<core-localstorage name="my-name" value="{{myName}}" on-core-localstorage-load="{{getName}}"></core-localstorage>
 		<rtc-media id="media" stream="{{myStream}}" streamURI="{{myStreamURI}}" muted></rtc-media>
@@ -22,5 +22,5 @@ This is us initialising our room and it working with all the magic.
 		</rtc-room-panel>
 
 	</template>
-	<script src="./rtc-app.js"></script>
+	<script src="#{COMPONENT}/rtc-app/rtc-app.js"></script>
 </polymer-element>

@@ -1,6 +1,6 @@
 {
   "name": "interconnect",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "description": "High-bandwidth virtual office for open teams. Public rooms are free. Private rooms cost. FOSS.",
   "homepage": "https://github.com/bevry/interconnect",
@@ -31,25 +31,20 @@
     "url": "http://github.com/bevry/interconnect.git"
   },
   "engines": {
-    "node": "0.10",
-    "npm": "1.4"
+    "node": "6",
+    "npm": "3"
   },
   "dependencies": {
     "bower": "^1.2.8",
-    "docpad": "~6.69.0",
+    "docpad": "~6.79.0",
     "docpad-plugin-autoprefix": "~2.0.0",
     "docpad-plugin-browserifydocs": "~2.2.0",
     "docpad-plugin-coffeekup": "~2.2.0",
-    "docpad-plugin-coffeescript": "~2.4.0",
-    "docpad-plugin-eco": "~2.0.3",
-    "docpad-plugin-ghpages": "~2.4.3",
-    "docpad-plugin-haml": "~2.0.2",
+    "docpad-plugin-coffeescript": "~2.5.0",
+    "docpad-plugin-eco": "~2.1.0",
+    "docpad-plugin-ghpages": "~2.4.4",
     "docpad-plugin-less": "~2.4.1",
-    "docpad-plugin-marked": "~2.2.1",
-    "docpad-plugin-partials": "~2.9.1",
-    "docpad-plugin-raw": "~2.3.2",
-    "docpad-plugin-styl": "~2.0.1",
-    "docpad-plugin-text": "~2.3.2",
+    "docpad-plugin-raw": "~2.4.1",
     "dominject": "~1.0.3",
     "freeice": "~1.0.0",
     "moment": "^2.5.1",
@@ -60,9 +55,8 @@
     "rtc-switchboard": "~0.10.1",
     "rtc-videoproc": "~0.11.1"
   },
-  "main": "node_modules/docpad/bin/docpad-server",
   "scripts": {
-    "start": "node_modules/docpad/bin/docpad run",
-    "postinstall": "node_modules/bower/bin/bower install"
+    "start": "docpad run",
+    "postinstall": "bower install"
   }
 }

@@ -4,7 +4,7 @@
 
 <polymer-element name="hangout-module" attributes="from messages profile" on-close="{{close}}" on-minimize="{{minimize}}">
 	<template>
-		<link href="./hangout-module.css" rel="stylesheet" />
+		<link href="#{COMPONENT}/hangout/hangout-module.css" rel="stylesheet" />
 
 		<hangout-header>
 			<h1>{{from}}</h1>
@@ -42,5 +42,5 @@
 		-->
 
 	</template>
-	<script src="./hangout-module.js"></script>
+	<script src="#{COMPONENT}/hangout/hangout-module.js"></script>
 </polymer-element>
